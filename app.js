@@ -3,7 +3,7 @@
 // @see https://developer.mozilla.org/fr/docs/AJAX
 var httpRequest = new window.XMLHttpRequest()
 // Récupération de l'élément html <img> qui a l'id "gif"
-var imgHTML = document.querySelector('img#gif')
+var gifsHTML = document.querySelector('div#gifs')
 
 // Fonction principale de l'application
 // Est lancée au chargement du DOM (Document Object Model)
@@ -30,6 +30,8 @@ function requestFactory () {
 // Fonction de gestion de la réponse http de giphy
 function responseHandler () {
   var res
+  var l
+  var imgHTML
   
   // Si 
   // le status ("http status code") de la réponse est différent de 200 (tout s'est bien passé)
@@ -49,12 +51,12 @@ function responseHandler () {
   // @see https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Instructions/try...catch
   try {  
     res = JSON.parse(httpRequest.response)
-  } catch (e) {
+  } catch (error) {
     // On attrape l'erreur si il y a eu une erreur
     // On log l'erreur, et l'objet httpRequest pour pouvoir débuguer
     // On stop l'exécution de la fonction
     console.log(
-      e,
+      error,
       httpRequest
     )
     return false
@@ -62,11 +64,25 @@ function responseHandler () {
 
   // Si il n'y a pas eu d'erreur
   // On ajoute l'url du gif à l'attribut "src" de l'élément html <img>
-  imgHTML.setAttribute('src', res.data[0].images.original.url)
+
+  l = res.data.length
+
+  for (i = 0 ; i<l ; i++) {
+    imgHTML = document.createElement('img')
+    imgHTML.setAttribute('src', res.data[i].images.original.url)
+    imgHTML.setAttribute('alt', 'gif from giphy, a funny cat')
+    gifsHTML.appendChild(imgHTML)
+  }
+
+
+
+
+
+
   // On ajoute la valeur de l'attribut "alt"
   // Cet attribut est obligatoire pour les balises <img>
   // Il permet d'afficher un texte court à la place de l'image
   // Utile pour les mal-voyants et / ou lorsque le navigateur n'arrive pas à récupérer l'image
-  imgHTML.setAttribute('alt', 'gif from giphy, a funny cat')
+
 
 }
