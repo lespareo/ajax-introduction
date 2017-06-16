@@ -4,6 +4,7 @@
 var httpRequest = new window.XMLHttpRequest()
 // Récupération de l'élément html <img> qui a l'id "gif"
 var gifsHTML = document.querySelector('div#gifs')
+var inputHTML = document.querySelector('input')
 
 // Fonction principale de l'application
 // Est lancée au chargement du DOM (Document Object Model)
@@ -20,9 +21,17 @@ function app () {
 // Fonction de construction de la requête à giphy avec httpRequest.open("...")
 // Exécute directement la requête avec httpRequest.send()
 function requestFactory () {
+  var valeurUtilisateur = inputHTML.value
+  var url = "http://api.giphy.com/v1/gifs/search?q="
+  
+  valeurUtilisateur = encodeURI(valeurUtilisateur)
+
+  url = url + valeurUtilisateur
+  url = url + "&api_key=dc6zaTOxFJmzC"
+
   httpRequest.open(
     "GET", 
-    "http://api.giphy.com/v1/gifs/search?q=funny+cat&api_key=dc6zaTOxFJmzC"
+    url
   )
   httpRequest.send()
 }
@@ -73,16 +82,4 @@ function responseHandler () {
     imgHTML.setAttribute('alt', 'gif from giphy, a funny cat')
     gifsHTML.appendChild(imgHTML)
   }
-
-
-
-
-
-
-  // On ajoute la valeur de l'attribut "alt"
-  // Cet attribut est obligatoire pour les balises <img>
-  // Il permet d'afficher un texte court à la place de l'image
-  // Utile pour les mal-voyants et / ou lorsque le navigateur n'arrive pas à récupérer l'image
-
-
 }
