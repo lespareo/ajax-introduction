@@ -18,6 +18,9 @@ function app () {
   httpRequest.onload = responseHandler
 }
 
+
+
+
 // Fonction de construction de la requête à giphy avec httpRequest.open("...")
 // Exécute directement la requête avec httpRequest.send()
 function requestFactory () {
@@ -34,8 +37,9 @@ function requestFactory () {
     url
   )
   httpRequest.send()
+  resetImages()
 }
-
+  
 // Fonction de gestion de la réponse http de giphy
 function responseHandler () {
   var res
@@ -74,6 +78,7 @@ function responseHandler () {
   // Si il n'y a pas eu d'erreur
   // On ajoute l'url du gif à l'attribut "src" de l'élément html <img>
 
+
   l = res.data.length
 
   for (i = 0 ; i<l ; i++) {
@@ -83,3 +88,13 @@ function responseHandler () {
     gifsHTML.appendChild(imgHTML)
   }
 }
+
+function resetImages () {
+  var images = document.querySelectorAll('img')
+  var m = images.length
+  for (i = 0 ; i<m ; i++) {
+    gifsHTML.removeChild(images[i])
+    // supprimer images[i] de l'html
+  }
+}
+
